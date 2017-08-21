@@ -35,8 +35,9 @@ namespace ST.Models.Entities
         [Display(Name = "Eklenme Tarihi")]
         public DateTime EklenmeTarihi { get; set; } = DateTime.Now;
         public string KullaniciId { get; set; }
-
-
+        public decimal MinimumSiparisTutari { get; set; } = 0;
+        public string FirmaProfilFotoParth { get; set; }
+        public string FirmaKapakFotoPath { get; set; }
         //Navigation Property
         [ForeignKey("KullaniciId")]
         public virtual ApplicationUser Kullanicisi { get; set; }
