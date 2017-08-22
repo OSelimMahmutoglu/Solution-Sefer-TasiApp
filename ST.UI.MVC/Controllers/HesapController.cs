@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using ST.BLL.Account;
 using ST.Models.IdentityModels;
 using ST.Models.ViewModels;
@@ -62,7 +63,7 @@ namespace ST.UI.MVC.Controllers
                     else
                         userManager.AddToRole(user.Id, "Musteri");
                 }
-                return RedirectToAction("Index", "Ana");
+                return RedirectToAction("Giris", "Hesap");
 
             }
             else
@@ -80,9 +81,54 @@ namespace ST.UI.MVC.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Giris(LoginViewModel model)
+        public async Task<ActionResult> Giris(LoginViewModel model)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var userManager = NewUserManager();
+            var user = await userManager.FindAsync(model.NameEmail, model.Password);
+            if (user == null)
+            {
+                var emailuser = await userManager.FindByEmailAsync(model.NameEmail);
+                if (emailuser == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Böyle bir kullanıcı bulunamadı!");
+                    return View(model);
+                }
+                user = await userManager.FindAsync(emailuser.UserName, model.Password);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Kullanıcı adı veya şifre hatalı");
+                    return View(model);
+                }
+                else
+                {
+                    var authManager = HttpContext.GetOwinContext().Authentication;
+                    var userIdentity = await userManager.CreateIdentityAsync(user,DefaultAuthenticationTypes.ApplicationCookie);
+                    authManager.SignIn(new AuthenticationProperties() {
+                    IsPersistent=model.RememberMe
+                    },userIdentity);
+                }
+            }
+            else
+            {
+                var authManager = HttpContext.GetOwinContext().Authentication;
+                var userIdentity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                authManager.SignIn(new AuthenticationProperties()
+                {
+                    IsPersistent = model.RememberMe
+                }, userIdentity);
+            }
+         
+            return RedirectToAction("Index","Ana");
         }
+        [Authorize] //Giriş yapanlar görebilir
+        public ActionResult Cikis()
+        {
+            HttpContext.GetOwinContext().Authentication.SignOut();
+            return RedirectToAction("Index","Ana");
+        }
+        
     }
 }

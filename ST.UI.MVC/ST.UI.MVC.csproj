@@ -1576,7 +1576,32 @@
     <Content Include="Areas\Scripts\plugins\velocity\velocity.min.js" />
     <Content Include="Areas\Scripts\plugins\velocity\velocity.ui.min.js" />
     <Content Include="Areas\Scripts\plugins\video\responsible-video.js" />
+    <Content Include="css\animate.css" />
+    <Content Include="css\animate.min.css" />
+    <Content Include="css\animsition.min.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\style.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="js\animsition.min.js" />
+    <Content Include="js\bootstrap-slider.min.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\foodpicky.js" />
+    <Content Include="js\foodpicky.min.js" />
+    <Content Include="js\headroom.js" />
+    <Content Include="js\headroom.min.js" />
+    <Content Include="js\infobox_packed.js" />
+    <Content Include="js\infobox_packed.min.js" />
+    <Content Include="js\jquery-ui.min.js" />
+    <Content Include="js\jquery.googlemap.js" />
+    <Content Include="js\jquery.googlemap.min.js" />
+    <Content Include="js\jquery.isotope.min.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\mapbox.js" />
+    <Content Include="js\markerclusterer.js" />
+    <Content Include="js\markerclusterer.min.js" />
+    <Content Include="js\tether.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1584,6 +1609,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Yonetim\YonetimAreaRegistration.cs" />
+    <Compile Include="Controllers\AnaController.cs" />
     <Compile Include="Controllers\HesapController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1651,6 +1677,14 @@
     <Content Include="Areas\Scripts\plugins\chartist\chartist.min.js.map" />
     <Content Include="Areas\Scripts\plugins\diff_match_patch\COPYING" />
     <Content Include="Areas\Scripts\plugins\justified-gallery\README.md" />
+    <Content Include="Views\_LayoutPage.cshtml" />
+    <Content Include="js\data.json" />
+    <Content Include="Views\Shared\_FooterPartial.cshtml" />
+    <Content Include="Views\Shared\_AppSectionPartial.cshtml" />
+    <Content Include="Views\Shared\_HeaderPartial.cshtml" />
+    <Content Include="Views\Hesap\Kayit.cshtml" />
+    <Content Include="Views\Hesap\Giris.cshtml" />
+    <Content Include="Views\Ana\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1662,9 +1696,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Yonetim\Controllers\" />
     <Folder Include="Areas\Yonetim\Models\" />
+    <Folder Include="fonts\" />
+    <Folder Include="images\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Hesap\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ST.BLL\ST.BLL.csproj">
