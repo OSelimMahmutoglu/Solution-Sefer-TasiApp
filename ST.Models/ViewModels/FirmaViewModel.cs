@@ -1,19 +1,19 @@
-﻿using ST.Models.IdentityModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
-namespace ST.Models.Entities
+namespace ST.Models.ViewModels
 {
-    [Table("Firmalar")]
-    public class Firma
+    public class FirmaViewModel
     {
-        [Key]
+
         public int Id { get; set; }
+
         [Required]
         [StringLength(100)]
         [Display(Name = "Firma Adı")]
@@ -27,7 +27,7 @@ namespace ST.Models.Entities
         [StringLength(75)]
         public string WebUrl { get; set; }
         [Display(Name = "Ortalama Teslim Süresi")]
-        public byte OrtalamaTeslim { get; set; } = 15;
+        public byte OrtalamaTeslimSuresi { get; set; } = 15;
         [Display(Name = "Aktif Mi?")]
         public bool AktifMi { get; set; } = false;
         [Column(TypeName = "smalldatetime")]
@@ -37,10 +37,12 @@ namespace ST.Models.Entities
         public decimal MinimumSiparisTutari { get; set; } = 0;
         public string FirmaProfilFotoParth { get; set; }
         public string FirmaKapakFotoPath { get; set; }
-        //Navigation Property
-        [ForeignKey("KullaniciId")]
-        public virtual ApplicationUser Kullanicisi { get; set; }
-        public virtual List<FirmaUrun> FirmaUrunler { get; set; } = new List<FirmaUrun>();
+
+        public HttpPostedFileBase FirmaProfilFotoFile { get; set; }
+        public HttpPostedFileBase FirmaKapakFotoFile { get; set; }
+
+
+
 
     }
 }
