@@ -13,8 +13,8 @@ namespace ST.BLL.Repository
     {
         public Firma GetByUserId(string id) => GetAll().FirstOrDefault(x=>x.KullaniciId==id);
     }
-    public class FirmaUrun : RepositoryBase<FirmaUrun, int> { }
-    public class OdemeTipi : RepositoryBase<OdemeTipi, int> { }
+    public class FirmaUrunRepo : RepositoryBase<FirmaUrun, int> { }
+    public class OdemeTipiRepo : RepositoryBase<OdemeTipi, int> { }
     public class SiparisRepo : RepositoryBase<Siparis, int> { }
     public class SiparisDetayRepo : RepositoryBase<SiparisDetay, int> { }
     public class UrunRepo : RepositoryBase<Urun, int> { }

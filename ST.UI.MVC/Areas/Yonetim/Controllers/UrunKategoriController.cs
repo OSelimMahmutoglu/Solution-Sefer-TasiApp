@@ -2,13 +2,12 @@
 using ST.Models.Entities;
 using ST.Models.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ST.UI.MVC.Areas.Yonetim.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UrunKategoriController : Controller
     {
         // GET: Yonetim/UrunKategori
@@ -16,20 +15,22 @@ namespace ST.UI.MVC.Areas.Yonetim.Controllers
         {
             return View();
         }
+
+        #region JsonResults
+
         [HttpPost]
         public JsonResult Ekle(UrunKategoriViewModel model)
         {
             try
             {
-                new UrunKategoriRepo().
-                    Insert(new UrunKategori()
-                    {
-                        KategoriAdi = model.KategoriAdi,
-                        Aciklama = model.Aciklama
-                    });
+                new UrunKategoriRepo().Insert(new UrunKategori()
+                {
+                    KategoriAdi = model.KategoriAdi,
+                    Aciklama = model.Aciklama
+                });
                 var data = new
                 {
-                    succes = true,
+                    success = true,
                     message = "Kategori ekleme işlemi başarılı"
                 };
                 return Json(data, JsonRequestBehavior.AllowGet);
@@ -38,12 +39,13 @@ namespace ST.UI.MVC.Areas.Yonetim.Controllers
             {
                 var data = new
                 {
-                    succes = false,
-                    message = "Kategori ekleme işlemi başarısız:" + ex.Message
+                    success = false,
+                    message = "Kategori ekleme işlemi başarısız: " + ex.Message
                 };
+                return Json(data, JsonRequestBehavior.AllowGet);
             }
-            return Json("", JsonRequestBehavior.AllowGet);
         }
+
         [HttpGet]
         public JsonResult Getir()
         {
@@ -54,8 +56,8 @@ namespace ST.UI.MVC.Areas.Yonetim.Controllers
                 KategoriAdi = x.KategoriAdi
             }).ToList();
             return Json(model, JsonRequestBehavior.AllowGet);
-
         }
+
         [HttpPost]
         public JsonResult Guncelle(UrunKategoriViewModel model)
         {
@@ -77,12 +79,13 @@ namespace ST.UI.MVC.Areas.Yonetim.Controllers
                 var data = new
                 {
                     success = false,
-                    message = "Kategori Güncelleme İşlemi başarısız:" + ex.Message
+                    message = "Kategori Güncelleme işlemi başarısız: " + ex.Message
                 };
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpDelete]
+
+        [HttpPost]
         public JsonResult Sil(int? id)
         {
             try
@@ -92,7 +95,7 @@ namespace ST.UI.MVC.Areas.Yonetim.Controllers
                 var data = new
                 {
                     success = true,
-                    message = "Kategori Silme İşlemi başarılı"
+                    message = "Kategori Silme işlemi başarılı"
                 };
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
@@ -101,10 +104,11 @@ namespace ST.UI.MVC.Areas.Yonetim.Controllers
                 var data = new
                 {
                     success = false,
-                    message = "kategori silinemedi:" + ex.Message
+                    message = "Kategori Silme işlemi başarısız :" + ex.Message
                 };
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
     }
 }

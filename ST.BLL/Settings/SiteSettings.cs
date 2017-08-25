@@ -2,7 +2,7 @@
 {
     public class SiteSettings
     {
-        public static string UrlFormatConver(string url)
+        public static string UrlFormatConverter(string url)
         {
             string sonuc = url;
             sonuc = sonuc.Replace("'", "");
@@ -29,7 +29,6 @@
             sonuc = sonuc.Replace(".", "-");
             sonuc = sonuc.Replace("?", "-");
             sonuc = sonuc.Replace(";", "-");
-
             return sonuc;
         }
         

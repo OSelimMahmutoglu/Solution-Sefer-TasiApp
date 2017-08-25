@@ -35,14 +35,11 @@ namespace ST.Models.ViewModels
         public DateTime EklenmeTarihi { get; set; } = DateTime.Now;
         public string KullaniciId { get; set; }
         public decimal MinimumSiparisTutari { get; set; } = 0;
-        public string FirmaProfilFotoParth { get; set; }
+        public string FirmaProfilFotoPath { get; set; }
         public string FirmaKapakFotoPath { get; set; }
 
         public HttpPostedFileBase FirmaProfilFotoFile { get; set; }
         public HttpPostedFileBase FirmaKapakFotoFile { get; set; }
-
-
-
-
+        public string KullaniciAdi { get; set; }
     }
 }

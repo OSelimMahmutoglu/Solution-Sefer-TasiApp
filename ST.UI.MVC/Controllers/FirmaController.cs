@@ -1,21 +1,21 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System;
+using System.IO;
+using System.Web.Helpers;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using ST.BLL.Repository;
 using ST.BLL.Settings;
 using ST.Models.Entities;
 using ST.Models.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Web;
-using System.Web.Helpers;
-using System.Web.Mvc;
 
 namespace ST.UI.MVC.Controllers
 {
     [Authorize(Roles = "Firma")]
     public class FirmaController : Controller
     {
+        // GET: Firma
         //[AllowAnonymous] herkese açık alan
         public ActionResult Index()
         {
@@ -31,7 +31,7 @@ namespace ST.UI.MVC.Controllers
                     EklenmeTarihi = firma.EklenmeTarihi,
                     FirmaAdi = firma.FirmaAdi,
                     FirmaKapakFotoPath = firma.FirmaKapakFotoPath,
-                    FirmaProfilFotoParth = firma.FirmaProfilFotoParth,
+                    FirmaProfilFotoPath = firma.FirmaProfilFotoParth,
                     MinimumSiparisTutari = firma.MinimumSiparisTutari,
                     OrtalamaTeslimSuresi = firma.OrtalamaTeslim,
                     Telefon = firma.Telefon,
@@ -39,7 +39,6 @@ namespace ST.UI.MVC.Controllers
                 };
             return View(model);
         }
-
         public ActionResult Ekle()
         {
             var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
@@ -77,39 +76,43 @@ namespace ST.UI.MVC.Controllers
                     string extName = Path.GetExtension(file.FileName);
                     fileName = fileName?.Replace(" ", "");
                     fileName += Guid.NewGuid().ToString().Replace("-", "");
-                    fileName = SiteSettings.UrlFormatConver(fileName);
+                    fileName = SiteSettings.UrlFormatConverter(fileName);
                     var klasorYolu = Server.MapPath("~/Upload/" + firma.Id);
                     var dosyaYolu = Server.MapPath("~/Upload/" + firma.Id + "/") + fileName + extName;
                     if (!Directory.Exists(klasorYolu))
                         Directory.CreateDirectory(klasorYolu);
                     file.SaveAs(dosyaYolu);
                     WebImage img = new WebImage(dosyaYolu);
+                    //240x140
                     img.Resize(240, 140, false);
-                    img.AddTextWatermark("Sefer Tası - BAU", "Tomato", opacity: 75, fontSize: 16, fontFamily: "Verdana", horizontalAlign: "Left");
+                    img.AddTextWatermark("Sefer Tası - BAU", "Tomato", opacity: 75, fontSize: 12, fontFamily: "Verdana",
+                        horizontalAlign: "Left");
                     img.Save(dosyaYolu);
                     var ff = new FirmaRepo().GetByID(firma.Id);
-                    ff.FirmaProfilFotoParth = $"Upload/{firma.Id}/{fileName}";
+                    ff.FirmaProfilFotoParth = $"Upload/{firma.Id}/{fileName}{extName}";
                     new FirmaRepo().Update();
                 }
-                if (model.FirmaProfilFotoParth != null && model.FirmaKapakFotoFile.ContentLength > 0)
+                if (model.FirmaKapakFotoFile != null && model.FirmaKapakFotoFile.ContentLength > 0)
                 {
-                    var file = model.FirmaProfilFotoFile;
+                    var file = model.FirmaKapakFotoFile;
                     string fileName = Path.GetFileNameWithoutExtension(file.FileName);
                     string extName = Path.GetExtension(file.FileName);
                     fileName = fileName?.Replace(" ", "");
                     fileName += Guid.NewGuid().ToString().Replace("-", "");
-                    fileName = SiteSettings.UrlFormatConver(fileName);
+                    fileName = SiteSettings.UrlFormatConverter(fileName);
                     var klasorYolu = Server.MapPath("~/Upload/" + firma.Id);
                     var dosyaYolu = Server.MapPath("~/Upload/" + firma.Id + "/") + fileName + extName;
                     if (!Directory.Exists(klasorYolu))
                         Directory.CreateDirectory(klasorYolu);
                     file.SaveAs(dosyaYolu);
                     WebImage img = new WebImage(dosyaYolu);
+                    //1670x480
                     img.Resize(1670, 480, false);
-                    img.AddTextWatermark("Sefer Tası - BAU", "Tomato", opacity: 75, fontSize: 16, fontFamily: "Verdana", horizontalAlign: "Left");
+                    img.AddTextWatermark("Sefer Tası - BAU", "Tomato", opacity: 75, fontSize: 26, fontFamily: "Verdana",
+                        horizontalAlign: "Left");
                     img.Save(dosyaYolu);
                     var ff = new FirmaRepo().GetByID(firma.Id);
-                    ff.FirmaProfilFotoParth = $"Upload/{firma.Id}/{fileName}";
+                    ff.FirmaKapakFotoPath = $"Upload/{firma.Id}/{fileName}{extName}";
                     new FirmaRepo().Update();
                 }
                 return RedirectToAction("Index");
@@ -120,6 +123,194 @@ namespace ST.UI.MVC.Controllers
                 return View(model);
             }
         }
+        public ActionResult Duzenle()
+        {
+            var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
+            FirmaViewModel model = null;
+            if (firma != null)
+                model = new FirmaViewModel()
+                {
+                    Id = firma.Id,
+                    KullaniciId = firma.KullaniciId,
+                    Adres = firma.Adres,
+                    AktifMi = firma.AktifMi,
+                    EklenmeTarihi = firma.EklenmeTarihi,
+                    FirmaAdi = firma.FirmaAdi,
+                    FirmaKapakFotoPath = firma.FirmaKapakFotoPath,
+                    FirmaProfilFotoPath = firma.FirmaProfilFotoParth,
+                    MinimumSiparisTutari = firma.MinimumSiparisTutari,
+                    OrtalamaTeslimSuresi = firma.OrtalamaTeslim,
+                    Telefon = firma.Telefon,
+                    WebUrl = firma.WebUrl
+                };
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Duzenle(FirmaViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            try
+            {
+                var firma = new FirmaRepo().GetByID(model.Id);
+                firma.MinimumSiparisTutari = model.MinimumSiparisTutari;
+                firma.OrtalamaTeslim = model.OrtalamaTeslimSuresi;
+                firma.Telefon = model.Telefon;
+                firma.Adres = model.Adres;
+                if (model.FirmaProfilFotoFile != null && model.FirmaProfilFotoFile.ContentLength > 0)
+                {
+                    var file = model.FirmaProfilFotoFile;
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    string extName = Path.GetExtension(file.FileName);
+                    fileName = fileName?.Replace(" ", "");
+                    fileName += Guid.NewGuid().ToString().Replace("-", "");
+                    fileName = SiteSettings.UrlFormatConverter(fileName);
+                    var klasorYolu = Server.MapPath("~/Upload/" + firma.Id);
+                    var dosyaYolu = Server.MapPath("~/Upload/" + firma.Id + "/") + fileName + extName;
+                    if (!Directory.Exists(klasorYolu))
+                        Directory.CreateDirectory(klasorYolu);
+                    file.SaveAs(dosyaYolu);
+                    WebImage img = new WebImage(dosyaYolu);
+                    //240x140
+                    img.Resize(240, 140, false);
+                    img.AddTextWatermark("Sefer Tası - BAU", "Tomato", opacity: 75, fontSize: 12, fontFamily: "Verdana",
+                        horizontalAlign: "Left");
+                    img.Save(dosyaYolu);
+                    if (string.IsNullOrEmpty(firma.FirmaProfilFotoParth))
+                    {
+                        firma.FirmaProfilFotoParth = $"Upload/{firma.Id}/{fileName}{extName}";
+                    }
+                    else
+                    {
+                        System.IO.File.Delete(Server.MapPath("~/" + firma.FirmaProfilFotoParth));
+                        firma.FirmaProfilFotoParth = $"Upload/{firma.Id}/{fileName}{extName}";
+                    }
+                }
+                if (model.FirmaKapakFotoFile != null && model.FirmaKapakFotoFile.ContentLength > 0)
+                {
+                    var file = model.FirmaKapakFotoFile;
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    string extName = Path.GetExtension(file.FileName);
+                    fileName = fileName?.Replace(" ", "");
+                    fileName += Guid.NewGuid().ToString().Replace("-", "");
+                    fileName = SiteSettings.UrlFormatConverter(fileName);
+                    var klasorYolu = Server.MapPath("~/Upload/" + firma.Id);
+                    var dosyaYolu = Server.MapPath("~/Upload/" + firma.Id + "/") + fileName + extName;
+                    if (!Directory.Exists(klasorYolu))
+                        Directory.CreateDirectory(klasorYolu);
+                    file.SaveAs(dosyaYolu);
+                    WebImage img = new WebImage(dosyaYolu);
+                    //1670x480
+                    img.Resize(1670, 480, false);
+                    img.AddTextWatermark("Sefer Tası - BAU", "Tomato", opacity: 75, fontSize: 26, fontFamily: "Verdana",
+                        horizontalAlign: "Left");
+                    img.Save(dosyaYolu);
+                    if (string.IsNullOrEmpty(firma.FirmaKapakFotoPath))
+                    {
+                        firma.FirmaKapakFotoPath = $"Upload/{firma.Id}/{fileName}{extName}";
+                    }
+                    else
+                    {
+                        System.IO.File.Delete(Server.MapPath("~/" + firma.FirmaKapakFotoPath));
+                        firma.FirmaKapakFotoPath = $"Upload/{firma.Id}/{fileName}{extName}";
+                    }
+                }
+                new FirmaRepo().Update();
+                return RedirectToAction("Index", "Firma");
+            }
+            catch (Exception ex)
+            {
+                return View(model);
+            }
+        }
+        public ActionResult Yemek()
+        {
+            return View();
+        }
+        public ActionResult UrunEkle()
+        {
+            var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
+            if (firma == null)
+                return RedirectToAction("index");
+            ViewBag.Kategoriler = KategoriSelectList();
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UrunEkle(FirmaUrunEkleViewModel model)
+        {
+            ViewBag.Kategoriler = KategoriSelectList();
+            if (!ModelState.IsValid)
+                return View(model);
+            var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
+            var urun = new UrunRepo().GetAll().Where(x => x.UrunAdi.ToLower() == model.UrunAdi.ToLower()).FirstOrDefault();
+            if (urun == null)
+            {
+                var yeniUrun = new Urun()
+                {
+                    UrunAdi = model.UrunAdi,
+                    UrunKategoriId = model.UrunKategoriId
+                };
+                new UrunRepo().Insert(yeniUrun);
 
+                if (model.UrunFotografFile != null && model.UrunFotografFile.ContentLength > 0)
+                {
+                    var file = model.UrunFotografFile;
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    string extName = Path.GetExtension(file.FileName);
+                    fileName = fileName?.Replace(" ", "");
+                    fileName += Guid.NewGuid().ToString().Replace("-", "");
+                    fileName = SiteSettings.UrlFormatConverter(fileName);
+                    var klasorYolu = Server.MapPath("~/Upload/Urunler/" + model.UrunKategori.Id);
+                    var dosyaYolu = Server.MapPath("~/Upload/Urunler/" + model.UrunKategori.Id + "/") + fileName + extName;
+                    if (!Directory.Exists(klasorYolu))
+                        Directory.CreateDirectory(klasorYolu);
+                    file.SaveAs(dosyaYolu);
+                    WebImage img = new WebImage(dosyaYolu);
+                    //100x80
+                    img.Resize(240, 140, false);
+                    img.AddTextWatermark("Sefer Tası - BAU", "Tomato", opacity: 75, fontSize: 12, fontFamily: "Verdana",
+                        horizontalAlign: "Left");
+                    img.Save(dosyaYolu);
+                    var uu = new UrunRepo().GetByID(yeniUrun.Id);
+                    uu.UrunFotografYolu = $"Upload/Urunler/{model.UrunKategoriId}/{fileName}{extName}";
+                    new UrunRepo().Update();
+
+                }
+                new FirmaUrunRepo().Insert(new FirmaUrun()
+                {
+                    FirmaId = firma.Id,
+                    SatistaMi = model.SatistaMi,
+                    UrunFiyat = model.Fiyat,
+                    UrunId = yeniUrun.Id
+                });
+            }
+            else
+            {
+                new FirmaUrunRepo().Insert(new FirmaUrun()
+                {
+                    FirmaId = firma.Id,
+                    SatistaMi = model.SatistaMi,
+                    UrunFiyat = model.Fiyat,
+                    UrunId = urun.Id
+                });
+            }
+            return View(model);
+        }
+        public List<SelectListItem> KategoriSelectList()
+        {
+            List<SelectListItem> kategoriler = new List<SelectListItem>();
+            new UrunKategoriRepo().GetAll().OrderBy(x => x.KategoriAdi).ToList().ForEach(x => kategoriler.Add(new SelectListItem()
+            {
+                Text = x.KategoriAdi,
+                Value = x.Id.ToString()
+            }));
+            return kategoriler;
+        }
     }
 }

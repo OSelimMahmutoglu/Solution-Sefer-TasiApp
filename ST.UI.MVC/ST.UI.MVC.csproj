@@ -1715,6 +1715,10 @@
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Views\Firma\Index.cshtml" />
     <Content Include="Views\Firma\Ekle.cshtml" />
+    <Content Include="Areas\Yonetim\Views\FirmaYonetim\Index.cshtml" />
+    <Content Include="Views\Firma\Duzenle.cshtml" />
+    <Content Include="Views\Firma\UrunEkle.cshtml" />
+    <Content Include="Views\Ana\Restoranlar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1725,7 +1729,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Yonetim\Models\" />
-    <Folder Include="Areas\Yonetim\Views\FirmaYonetim\" />
     <Folder Include="fonts\" />
     <Folder Include="images\" />
     <Folder Include="Models\" />
