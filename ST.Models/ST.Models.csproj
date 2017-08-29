@@ -103,10 +103,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\FirmaUrunEkleViewModel.cs" />
+    <Compile Include="ViewModels\FirmaUrunleriViewModel.cs" />
     <Compile Include="ViewModels\FirmaViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MailModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\SepetViewModel.cs" />
     <Compile Include="ViewModels\UrunKategoriViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

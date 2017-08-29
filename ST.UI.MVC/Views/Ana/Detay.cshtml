@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title = "Detay";
+    Layout = "~/Views/_LayoutPage.cshtml";
+}
+
+<div class="container m-t-30" ng-app="site" ng-controller="SepetCtrl" ng-cloak>
+    <div style="display:none;">{{firmaid= @ViewBag.firmaid}}</div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+            <div class="menu-widget m-b-30" ng-repeat="(key,value) in data.Urunler| groupBy:'KategoriAdi'">
+                <div class="widget-heading">
+                    <h3 class="widget-title text-dark">
+                        {{key}}<a class="btn btn-link pull-right" data-toggle="collapse" href="#popular" aria-expanded="true">
+                            <i class="fa fa-angle-right pull-right"></i>
+                            <i class="fa fa-angle-down pull-right"></i>
+                        </a>
+                    </h3>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="collapse in">
+                    <div class="food-item" ng-repeat="urun in value">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-lg-8">
+                                <div class="rest-logo pull-left">
+                                    <a class="restaurant-logo pull-left" href="#"><img src="~/{{urun.UrunResimPath}}" alt="Food logo"></a>
+                                </div>
+                                <!-- end:Logo -->
+                                <div class="rest-descr">
+                                    <h6><a href="#">{{urun.UrunAdi}}</a></h6>
+                                </div>
+                                <!-- end:Description -->
+                            </div>
+                            <!-- end:col -->
+                            <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info"> <span class="price pull-left">{{urun.FiyatGorunum}}</span> <a href="#" class="btn btn-small btn btn-secondary pull-right" data-toggle="modal" data-target="#order-modal" ng-click="sepeteekle(urun)">&#43;</a> </div>
+                        </div>
+                        <!-- end:row -->
+                    </div>
+                    <!-- end:Food item -->
+                </div>
+                <!-- end:Collapse -->
+            </div>
+            <!-- end:Widget menu -->
+            <div class="row m-t-30">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" class="panel-toggle collapsed" href="#faq1" aria-expanded="false">Can I viverra sit amet quam eget lacinia?</a></h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="faq1" aria-expanded="false" role="article" style="height: 0px;">
+                            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ut erat a ultricies. Phasellus non auctor nisi, id aliquet lectus. Vestibulum libero eros, aliquet at tempus ut, scelerisque sit amet nunc. Vivamus id porta neque, in pulvinar ipsum. Vestibulum sit amet quam sem. Pellentesque accumsan consequat venenatis. Pellentesque sit amet justo dictum, interdum odio non, dictum nisi. Fusce sit amet turpis eget nibh elementum sagittis. Nunc consequat lacinia purus, in consequat neque consequat id.</div>
+                        </div>
+                    </div>
+                    <!--//panel-->
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" class="panel-toggle" href="#faq2"><i class="ti-info-alt"></i>What is the ipsum dolor sit amet quam tortor?</a></h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="faq2">
+                            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ut erat a ultricies. Phasellus non auctor nisi, id aliquet lectus. Vestibulum libero eros, aliquet at tempus ut, scelerisque sit amet nunc. Vivamus id porta neque, in pulvinar ipsum. Vestibulum sit amet quam sem. Pellentesque accumsan consequat venenatis. Pellentesque sit amet justo dictum, interdum odio non, dictum nisi. Fusce sit amet turpis eget nibh elementum sagittis. Nunc consequat lacinia purus, in consequat neque consequat id.</div>
+                        </div>
+                    </div>
+                    <!--//panel-->
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" class="panel-toggle" href="#faq3"><i class="ti-info-alt"></i>How does lorem ipsum work?</a></h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="faq3">
+                            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ut erat a ultricies. Phasellus non auctor nisi, id aliquet lectus. Vestibulum libero eros, aliquet at tempus ut, scelerisque sit amet nunc. Vivamus id porta neque, in pulvinar ipsum. Vestibulum sit amet quam sem. Pellentesque accumsan consequat venenatis. Pellentesque sit amet justo dictum, interdum odio non, dictum nisi. Fusce sit amet turpis eget nibh elementum sagittis. Nunc consequat lacinia purus, in consequat neque consequat id.</div>
+                        </div>
+                    </div>
+                    <!--//panel-->
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a data-parent="#accordion" data-toggle="collapse" class="panel-toggle" href="#faq4"><i class="ti-info-alt"></i>Can I ipsum dolor sit amet nascetur ridiculus?</a></h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="faq4">
+                            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ut erat a ultricies. Phasellus non auctor nisi, id aliquet lectus. Vestibulum libero eros, aliquet at tempus ut, scelerisque sit amet nunc. Vivamus id porta neque, in pulvinar ipsum. Vestibulum sit amet quam sem. Pellentesque accumsan consequat venenatis. Pellentesque sit amet justo dictum, interdum odio non, dictum nisi. Fusce sit amet turpis eget nibh elementum sagittis. Nunc consequat lacinia purus, in consequat neque consequat id.</div>
+                        </div>
+                    </div>
+                    <!--//panel-->
+                </div>
+            </div>
+            <!--/row -->
+        </div>
+        <!-- end:Bar -->
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+            <div class="sidebar-wrap">
+                <div class="widget widget-cart">
+                    <div class="widget-heading">
+                        <h3 class="widget-title text-dark">
+                            Sepetiniz
+                        </h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="order-row bg-white" ng-repeat="urun in sepet">
+                        <div class="widget-body">
+                            <div class="title-row">
+                                {{urun.UrunAdi}}
+                                <a href="#" ng-click="sepettencikart(urun)"><i class="fa fa-trash pull-right"></i></a>
+                            </div>
+                            <div class="form-group row no-gutter">
+                                <div class="col-xs-12">
+                                    <input class="form-control" step="1" type="number" ng-model="urun.Adet" ng-change="adetarttir(urun)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end:Order row -->
+                    <div class="widget-delivery clearfix">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 b-t-0">
+                            <md-switch ng-model="hemenmi" aria-label="Switch 1">
+                                <div ng-show="hemenmi" class="label">
+                                    Hemen(~{{data.OrtalamaSiparisSuresi}} dk.)
+                                </div>
+                                <div ng-show="!hemenmi" class="label">
+                                    İleri Tarih
+                                </div>
+                            </md-switch>
+                        </div>
+                        <div ng-if="!hemenmi" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 b-t-0">
+                            <input type="date" ng-model="zaman.tarih" class="form-control" /><br />
+                            <input type="time" ng-model="zaman.saat" class="form-control" />
+                        </div>
+                        <div ng-show="sepettutari>=minimumsiparistutari" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 b-t-0">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Ödeme Tipi</label>
+                                <md-select ng-model="odemetipi">
+                                    <md-option ng-repeat="tip in odemetipleri" value="{{tip.Id}}">
+                                        {{tip.OdemeTipiAdi}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="price-wrap text-xs-center">
+                            <p>Toplam</p>
+                            <h3 class="value"><strong>{{sepettutari}} ₺</strong></h3>
+                            <div ng-if="sepettutari<minimumsiparistutari">
+                                <span class="text text-danger">Sipaiş verebilmeniz için sepetinize {{minimumsiparistutari-sepettutari}}₺ kadar ürün eklemelisiniz</span>
+                            </div>
+                            <input type="button" ng-show="sepettutari>=minimumsiparistutari" class="btn theme-btn btn-lg" value="Sipariş Ver" ng-click="sepetionayla()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end:Right Sidebar -->
+    </div>
+    <!-- end:row -->
+</div>

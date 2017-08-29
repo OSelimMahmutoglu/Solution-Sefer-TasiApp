@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SeferTasiADO.EntityProject.BLL.Repository
+namespace ST.BLL.Repository
 {
-    public abstract class RepositoryBase<T, ID> where T : class
+    public abstract class RepositoryBase<T, Id> where T : class
     {
         protected internal static MyContext dbContext;
 
@@ -16,55 +14,48 @@ namespace SeferTasiADO.EntityProject.BLL.Repository
             dbContext = new MyContext();
             return dbContext.Set<T>().ToList();
         }
-        public virtual T GetByID(ID id)
+        public virtual T GetByID(Id id)
         {
             dbContext = new MyContext();
             return dbContext.Set<T>().Find(id);
         }
-        public virtual void Insert(T entity)
+        public virtual int Insert(T entity)
         {
             try
             {
                 dbContext = dbContext ?? new MyContext();
                 dbContext.Set<T>().Add(entity);
-                dbContext.SaveChanges();
+                return dbContext.SaveChanges();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public virtual void Delete(T entity)
+        public virtual int Delete(T entity)
         {
             try
             {
-
                 dbContext = dbContext ?? new MyContext();
                 dbContext.Set<T>().Remove(entity);
-                dbContext.SaveChanges();
-
+                return dbContext.SaveChanges();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-
         }
-
-        public virtual void Update()
+        public virtual int Update()
         {
             try
             {
-                dbContext.SaveChanges();
+                dbContext = dbContext ?? new MyContext();
+                return dbContext.SaveChanges();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
     }
-
 }
-

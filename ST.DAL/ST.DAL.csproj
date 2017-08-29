@@ -85,25 +85,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201708180848319_a1.cs" />
-    <Compile Include="Migrations\201708180848319_a1.Designer.cs">
-      <DependentUpon>201708180848319_a1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201708180937338_a2.cs" />
-    <Compile Include="Migrations\201708180937338_a2.Designer.cs">
-      <DependentUpon>201708180937338_a2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201708180944514_a3.cs" />
-    <Compile Include="Migrations\201708180944514_a3.Designer.cs">
-      <DependentUpon>201708180944514_a3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201708181029352_a4.cs" />
-    <Compile Include="Migrations\201708181029352_a4.Designer.cs">
-      <DependentUpon>201708181029352_a4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201708210659169_a5.cs" />
-    <Compile Include="Migrations\201708210659169_a5.Designer.cs">
-      <DependentUpon>201708210659169_a5.cs</DependentUpon>
+    <Compile Include="Migrations\201708291005027_a1.cs" />
+    <Compile Include="Migrations\201708291005027_a1.Designer.cs">
+      <DependentUpon>201708291005027_a1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyContext.cs" />
@@ -120,20 +104,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708180848319_a1.resx">
-      <DependentUpon>201708180848319_a1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708180937338_a2.resx">
-      <DependentUpon>201708180937338_a2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708180944514_a3.resx">
-      <DependentUpon>201708180944514_a3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708181029352_a4.resx">
-      <DependentUpon>201708181029352_a4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708210659169_a5.resx">
-      <DependentUpon>201708210659169_a5.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201708291005027_a1.resx">
+      <DependentUpon>201708291005027_a1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

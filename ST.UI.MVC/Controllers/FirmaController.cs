@@ -19,7 +19,7 @@ namespace ST.UI.MVC.Controllers
         //[AllowAnonymous] herkese açık alan
         public ActionResult Index()
         {
-            var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
+            var firma = new FirmaRepo().GetByUserID(HttpContext.User.Identity.GetUserId());
             FirmaViewModel model = null;
             if (firma != null)
                 model = new FirmaViewModel()
@@ -41,7 +41,7 @@ namespace ST.UI.MVC.Controllers
         }
         public ActionResult Ekle()
         {
-            var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
+            var firma = new FirmaRepo().GetByUserID(HttpContext.User.Identity.GetUserId());
             if (firma != null)
             {
                 ViewBag.durum = false;
@@ -125,7 +125,7 @@ namespace ST.UI.MVC.Controllers
         }
         public ActionResult Duzenle()
         {
-            var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
+            var firma = new FirmaRepo().GetByUserID(HttpContext.User.Identity.GetUserId());
             FirmaViewModel model = null;
             if (firma != null)
                 model = new FirmaViewModel()
@@ -234,7 +234,7 @@ namespace ST.UI.MVC.Controllers
         }
         public ActionResult UrunEkle()
         {
-            var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
+            var firma = new FirmaRepo().GetByUserID(HttpContext.User.Identity.GetUserId());
             if (firma == null)
                 return RedirectToAction("index");
             ViewBag.Kategoriler = KategoriSelectList();
@@ -247,7 +247,7 @@ namespace ST.UI.MVC.Controllers
             ViewBag.Kategoriler = KategoriSelectList();
             if (!ModelState.IsValid)
                 return View(model);
-            var firma = new FirmaRepo().GetByUserId(HttpContext.User.Identity.GetUserId());
+            var firma = new FirmaRepo().GetByUserID(HttpContext.User.Identity.GetUserId());
             var urun = new UrunRepo().GetAll().Where(x => x.UrunAdi.ToLower() == model.UrunAdi.ToLower()).FirstOrDefault();
             if (urun == null)
             {
